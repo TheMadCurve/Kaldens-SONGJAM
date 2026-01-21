@@ -184,33 +184,33 @@
   font-size: 0.75rem;
 }/* CSS Variables */
 :root {
-  --primary-color: #9146FF;
-  --primary-hover: #772ce8;
-  --primary-light: rgba(145, 70, 255, 0.1);
-  --primary-border: rgba(145, 70, 255, 0.3);
+  --primary-color: #da9e9e;
+  --primary-hover: #c97676;
+  --primary-light: #dbd2ae;
+  --primary-border: black;
   
-  --bg-primary: #0e0e10;
-  --bg-secondary: #18181b;
-  --bg-card: #1f1f23;
+  --bg-primary: #99d9ea;
+  --bg-secondary: #c0b072;
+  --bg-card: #85926b;
   --bg-hover: #26262c;
   
-  --text-primary: #efeff1;
-  --text-secondary: #adadb8;
+  --text-primary: white;
+  --text-secondary: #e8c88c;
   --text-muted: #848494;
   
-  --border-color: rgba(255, 255, 255, 0.1);
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12);
-  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --border-color: black;
+  --shadow-sm: 0 2px 0px black;
+  --shadow-md: 0 5px 0px black;
+  --shadow-lg: 0 9px 0px black;
   
   --radius-sm: 0.375rem;
   --radius-md: 0.5rem;
   --radius-lg: 0.75rem;
   --radius-xl: 1rem;
   
-  --transition-fast: 450ms ease;
-  --transition-base: 600ms ease;
-  --transition-slow: 800ms ease;
+  --transition-fast: 350ms ease;
+  --transition-base: 450ms ease;
+  --transition-slow: 650ms ease;
 }
 
 /* Reset and Base Styles */
@@ -603,6 +603,7 @@ body {
   font-size: 1.125rem;
   font-weight: 700;
   margin-bottom: 0.25rem;
+  text-shadow: 1.5px 1px 0px black;
 }
 
 .song-title {
@@ -927,6 +928,7 @@ body {
   font-weight: 700;
   margin-bottom: 2rem;
   letter-spacing: -0.025em;
+  text-shadow: 2px 1px 0px black;
 }
 
 .artists-carousel {
@@ -1047,6 +1049,7 @@ body {
   
   .header-title {
     font-size: 1.125rem;
+    text-shadow: 2px 1px 0px black;
   }
   
   .header-actions {
