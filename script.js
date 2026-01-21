@@ -1,4 +1,3 @@
-// Initialize Supabase client
 const supabase = window.supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey);
 
 // Application state management
