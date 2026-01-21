@@ -1,4 +1,4 @@
-const supabase = window.supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey);
+const db = window.supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey);
 
 // Application state management
 class AppState {
@@ -237,7 +237,7 @@ async function submitAllVotes() {
         let result;
         if (existingVotes > 0) {
           // Update existing vote
-          result = await supabase
+          result = await db
             .from('votes')
             .update({ points: newTotalVotes })
             .eq('user_id', appState.user.id)
@@ -245,7 +245,7 @@ async function submitAllVotes() {
             .select();
         } else {
           // Insert new vote
-          result = await supabase
+          result = await db
             .from('votes')
             .insert([{
               id: crypto.randomUUID(),
@@ -362,7 +362,7 @@ async function handleLogin() {
     elements.loginBtn.disabled = true;
     elements.loginBtn.innerHTML = '<span class="loading-spinner"></span> Connecting to Twitch...';
 
-    const { error } = await supabase.auth.signInWithOAuth({
+    const { error } = await db.auth.signInWithOAuth({
       provider: 'twitch',
       options: {
         redirectTo: window.location.origin + window.location.pathname,
@@ -395,7 +395,7 @@ async function handleLogout() {
     elements.logoutBtn.disabled = true;
     elements.logoutBtn.innerHTML = '<span class="loading-spinner"></span>';
 
-    const { error } = await supabase.auth.signOut();
+    const { error } = await db.auth.signOut();
     if (error) throw error;
 
     toast.info('Logged out successfully');
@@ -439,7 +439,7 @@ async function loadUserVotes() {
   
   try {
     const { data: votes, error } = await utils.retry(async () => {
-      return await supabase
+      return await db
         .from('votes')
         .select('song_id, points')
         .eq('user_id', appState.user.id);
@@ -508,7 +508,7 @@ async function loadArtists() {
 
     const { data: artists, error } = await utils.retry(async () => {
       console.log('Fetching artists from database...');
-      return await supabase
+      return await db
         .from('artists')
         .select('*')
         .order('display_name');
@@ -616,7 +616,7 @@ function createArtistCard(artist) {
   const canRemove = appState.canRemoveVoteForSong(artist.song_id);
   
   // Get song URL from Supabase storage
-  const songURL = supabase.storage
+  const songURL = db.storage
     .from('songs')
     .getPublicUrl(`${artist.twitch_username}.mp3`).data.publicUrl;
   
@@ -724,7 +724,7 @@ function closeThankYouModal() {
 window.handlers = handlers;
 
 // Auth state listener
-supabase.auth.onAuthStateChange((event, session) => {
+db.auth.onAuthStateChange((event, session) => {
   console.log('Auth state changed:', event);
   updateAuthUI(session);
 });
@@ -738,7 +738,7 @@ async function init() {
     setupEventListeners();
     
     // Check for existing session
-    const { data: { session }, error } = await supabase.auth.getSession();
+    const { data: { session }, error } = await db.auth.getSession();
     if (error) throw error;
     
     console.log('Initial session:', !!session);
