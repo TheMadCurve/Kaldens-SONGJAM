@@ -1,7 +1,7 @@
 // Supabase Configuration
 const SUPABASE_CONFIG = {
   url: 'https://vfkalemgmhobyuqvzreh.supabase.co',
-  anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZma2FsZW1nbWhvYnl1cXZ6cmVoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDgxMTkzMTksImV4cCI6MjA2MzY5NTMxOX0.oLcwsfd7ZAXaWilOmFxkRZs59qD54G4-geS3YMm2v5M',
+  anonKey: 'sb_publishable_maT_I76CIxa4oFTHLEBILQ_lCYeNCX8',
   redirectUrl: 'https://themadcurve.github.io/Kaldens-SONGJAM/'  // Fixed repo name
 };
 
