@@ -519,9 +519,9 @@ async function loadArtists() {
   } catch (error) {
     console.error('Error loading artists:', error);
     showErrorState();
-  } finally {
-    console.log('Hiding loading state');
-    showLoadingState(false);
+  }
+  finally {
+  showLoadingState(false);
   // TEMPORARY DEBUG - Force hide loading
   if (elements.loadingState) {
     elements.loadingState.style.display = 'none';
