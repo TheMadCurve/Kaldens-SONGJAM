@@ -1,5 +1,13 @@
 const supabase = window.supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey);
 
+// ADD THESE DEBUG LINES
+console.log('=== INITIALIZATION DEBUG ===');
+console.log('Supabase client created:', !!supabase);
+console.log('Config URL:', SUPABASE_CONFIG.url);
+console.log('Config has key:', !!SUPABASE_CONFIG.anonKey);
+console.log('Key starts with eyJ:', SUPABASE_CONFIG.anonKey?.startsWith('eyJ'));
+console.log('============================');
+
 // Application state management
 class AppState {
   constructor() {
@@ -480,8 +488,10 @@ function updateVotesDisplay() {
 // Load and display artists
 async function loadArtists() {
   try {
+    console.log('loadArtists called, user:', appState.user);
     showLoadingState(true);
 
+    console.log('Fetching artists from database...');
     const { data: artists, error } = await utils.retry(async () => {
       return await supabase
         .from('artists')
@@ -489,23 +499,34 @@ async function loadArtists() {
         .order('display_name');
     });
 
+    console.log('Fetch result:', { artists, error });
+
     if (error) throw error;
 
     appState.artists = artists || [];
+    console.log('Artists loaded:', appState.artists.length);
 
     if (!appState.user) {
+      console.log('No user, showing login prompt');
       showLoginPrompt();
     } else if (appState.artists.length === 0) {
+      console.log('No artists found');
       showEmptyState();
     } else {
+      console.log('Rendering artists');
       renderArtists(appState.artists);
     }
   } catch (error) {
     console.error('Error loading artists:', error);
     showErrorState();
   } finally {
+    console.log('Hiding loading state');
     showLoadingState(false);
+  // TEMPORARY DEBUG - Force hide loading
+  if (elements.loadingState) {
+    elements.loadingState.style.display = 'none';
   }
+}
 }
 
 // UI state management
