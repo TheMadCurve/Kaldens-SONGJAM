@@ -1,13 +1,5 @@
 const supabase = window.supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey);
 
-// ADD THESE DEBUG LINES
-console.log('=== INITIALIZATION DEBUG ===');
-console.log('Supabase client created:', !!supabase);
-console.log('Config URL:', SUPABASE_CONFIG.url);
-console.log('Config has key:', !!SUPABASE_CONFIG.anonKey);
-console.log('Key starts with eyJ:', SUPABASE_CONFIG.anonKey?.startsWith('eyJ'));
-console.log('============================');
-
 // Application state management
 class AppState {
   constructor() {
@@ -102,6 +94,15 @@ function initializeElements() {
   elements.submitSection = document.getElementById('submit-section');
   elements.submitVotesBtn = document.getElementById('submit-votes-btn');
   elements.pendingVotesCount = document.getElementById('pending-votes-count');
+  
+  // Debug logging
+  console.log('Elements initialized:', {
+    loginBtn: !!elements.loginBtn,
+    logoutBtn: !!elements.logoutBtn,
+    mainContent: !!elements.mainContent,
+    loadingState: !!elements.loadingState,
+    votesRemaining: !!elements.votesRemaining
+  });
 }
 
 // Utility functions
@@ -410,6 +411,8 @@ async function handleLogout() {
 
 // Update UI based on auth state
 function updateAuthUI(session) {
+  console.log('updateAuthUI called, session:', !!session);
+  
   if (session?.user) {
     appState.user = session.user;
     
@@ -485,26 +488,37 @@ function updateVotesDisplay() {
   }
 }
 
-// Load and display artists
+// UI state management - UPDATED with better error handling
+function showLoadingState(show) {
+  console.log('showLoadingState called:', show);
+  
+  if (elements.loadingState) {
+    elements.loadingState.style.display = show ? 'flex' : 'none';
+  } else {
+    console.warn('Loading state element not found');
+  }
+}
+
+// Load and display artists - UPDATED with better flow
 async function loadArtists() {
+  console.log('loadArtists called');
+  
   try {
-    console.log('loadArtists called, user:', appState.user);
     showLoadingState(true);
 
-    console.log('Fetching artists from database...');
     const { data: artists, error } = await utils.retry(async () => {
+      console.log('Fetching artists from database...');
       return await supabase
         .from('artists')
         .select('*')
         .order('display_name');
     });
 
-    console.log('Fetch result:', { artists, error });
+    console.log('Fetch result:', { artistsCount: artists?.length, error });
 
     if (error) throw error;
 
     appState.artists = artists || [];
-    console.log('Artists loaded:', appState.artists.length);
 
     if (!appState.user) {
       console.log('No user, showing login prompt');
@@ -513,25 +527,16 @@ async function loadArtists() {
       console.log('No artists found');
       showEmptyState();
     } else {
-      console.log('Rendering artists');
+      console.log('Rendering', appState.artists.length, 'artists');
       renderArtists(appState.artists);
     }
   } catch (error) {
     console.error('Error loading artists:', error);
     showErrorState();
+  } finally {
+    console.log('Hiding loading state');
+    showLoadingState(false);
   }
-  finally {
-  showLoadingState(false);
-  // TEMPORARY DEBUG - Force hide loading
-  if (elements.loadingState) {
-    elements.loadingState.style.display = 'none';
-  }
-}
-}
-
-// UI state management
-function showLoadingState(show) {
-  elements.loadingState.style.display = show ? 'flex' : 'none';
 }
 
 function showLoginPrompt() {
@@ -545,7 +550,7 @@ function showLoginPrompt() {
         <h3>How Voting Works:</h3>
         <ul>
           <li>🗳️ You get <strong>10 total votes</strong> to distribute</li>
-          <li>🎯 Give up to <strong>5 votes per song</strong></li>
+          <li>🎯 Give up to <strong>3 votes per song</strong></li>
           <li>🎧 Listen to each song before voting</li>
           <li>🏆 Help your favorite artists win!</li>
         </ul>
@@ -691,200 +696,6 @@ function createArtistCard(artist) {
   return card;
 }
 
-// Get appropriate button text
-function getVoteButtonText(artistId) {
-  const userVotes = appState.getVotesForSong(artistId);
-  const remaining = appState.getRemainingVotes();
-  const maxForSong = appState.getMaxAdditionalVotes(artistId);
-  
-  if (remaining === 0) return 'No Votes Left';
-  if (userVotes >= APP_CONFIG.maxVotesPerSong) return 'Max Votes Given';
-  if (userVotes > 0) return `Vote Again (${maxForSong} left)`;
-  return 'Vote';
-}
-
-// Vote modal functions
-function openVoteModal(artistId, artistName) {
-  if (!appState.canVoteForSong(artistId)) {
-    toast.error('Cannot vote for this song anymore');
-    return;
-  }
-  
-  appState.selectedArtist = artistId;
-  const currentVotes = appState.getVotesForSong(artistId);
-  const maxAdditional = appState.getMaxAdditionalVotes(artistId);
-  
-  // Update modal content
-  elements.modalArtistName.textContent = artistName;
-  elements.modalVoteInfo.innerHTML = `
-    ${currentVotes > 0 ? `<p>You've already given ${currentVotes} ${utils.pluralize(currentVotes, 'vote')} to this song.</p>` : ''}
-    <p>You can give up to ${maxAdditional} more ${utils.pluralize(maxAdditional, 'vote')}.</p>
-  `;
-  
-  // Update vote buttons
-  elements.voteOptionBtns.forEach(btn => {
-    const points = parseInt(btn.dataset.points);
-    btn.disabled = points > maxAdditional;
-    btn.classList.remove('selected');
-  });
-  
-  // Reset state
-  appState.selectedPoints = 0;
-  elements.modalConfirm.disabled = true;
-  elements.modalConfirm.querySelector('.button-text').textContent = 'Confirm Vote';
-  
-  // Show modal
-  elements.voteModal.style.display = 'flex';
-  elements.voteModal.setAttribute('aria-hidden', 'false');
-  
-  // Focus management
-  elements.modalCancel.focus();
-}
-
-function closeVoteModal() {
-  elements.voteModal.style.display = 'none';
-  elements.voteModal.setAttribute('aria-hidden', 'true');
-  appState.selectedArtist = null;
-  appState.selectedPoints = 0;
-  
-  // Clear selections
-  elements.voteOptionBtns.forEach(btn => btn.classList.remove('selected'));
-}
-
-function selectVoteOption(points) {
-  if (points < 1 || points > 5) return;
-  
-  appState.selectedPoints = points;
-  
-  // Update button states
-  elements.voteOptionBtns.forEach(btn => {
-    const btnPoints = parseInt(btn.dataset.points);
-    btn.classList.toggle('selected', btnPoints === points);
-  });
-  
-  elements.modalConfirm.disabled = false;
-  elements.modalConfirm.querySelector('.button-text').textContent = 
-    `Confirm ${points} ${utils.pluralize(points, 'Vote')}`;
-}
-
-// Handle vote submission
-async function handleVote() {
-  if (!appState.selectedArtist || !appState.selectedPoints || appState.isLoading) {
-    return;
-  }
-  
-  try {
-    appState.isLoading = true;
-    elements.modalConfirm.disabled = true;
-    elements.modalConfirm.innerHTML = '<span class="loading-spinner"></span> Submitting...';
-    
-    // Add to queue for optimistic update
-    appState.voteQueue.set(appState.selectedArtist, appState.selectedPoints);
-    
-    const existingVotes = appState.getVotesForSong(appState.selectedArtist);
-    const newTotalVotes = existingVotes + appState.selectedPoints;
-    
-    console.log('Submitting vote:', {
-      user_id: appState.user.id,
-      song_id: appState.selectedArtist,
-      existingVotes,
-      newVotes: appState.selectedPoints,
-      newTotal: newTotalVotes
-    });
-    
-    let result;
-    if (existingVotes > 0) {
-      // Update existing vote
-      result = await supabase
-        .from('votes')
-        .update({ 
-          points: newTotalVotes
-        })
-        .eq('user_id', appState.user.id)
-        .eq('song_id', appState.selectedArtist)
-        .select();
-    } else {
-      // Insert new vote
-      result = await supabase
-        .from('votes')
-        .insert([{
-          id: crypto.randomUUID(), // Generate a UUID for the id field
-          user_id: appState.user.id,
-          song_id: appState.selectedArtist,
-          points: appState.selectedPoints
-        }])
-        .select();
-    }
-    
-    console.log('Vote result:', result);
-    
-    if (result.error) {
-      console.error('Supabase error:', {
-        message: result.error.message,
-        details: result.error.details,
-        hint: result.error.hint,
-        code: result.error.code
-      });
-      throw result.error;
-    }
-    
-    if (!result.data || result.data.length === 0) {
-      throw new Error('No data returned from vote operation');
-    }
-    
-    // Update local state
-    appState.userVotes.set(appState.selectedArtist, newTotalVotes);
-    appState.totalVotesUsed += appState.selectedPoints;
-    appState.voteQueue.delete(appState.selectedArtist);
-    
-    console.log('After vote - state:', {
-      totalVotesUsed: appState.totalVotesUsed,
-      remainingVotes: appState.getRemainingVotes(),
-      userVotes: Array.from(appState.userVotes.entries())
-    });
-    
-    // Close modal and update UI
-    const votesGiven = appState.selectedPoints; // Store before closing modal
-    const votedArtistId = appState.selectedArtist; // Store before closing modal
-    closeVoteModal();
-    updateVotesDisplay();
-    
-    // Update ALL artist cards to reflect new vote state
-    renderArtists(appState.artists);
-    
-    // Show success message
-    const voteText = votesGiven === 1 ? 'vote' : 'votes';
-    toast.success(`Successfully gave ${votesGiven} ${voteText}!`);
-    
-  } catch (error) {
-    console.error('Vote error details:', error);
-    appState.voteQueue.delete(appState.selectedArtist);
-    
-    // More specific error messages
-    let errorMessage = 'Failed to submit vote. Please try again.';
-    
-    if (error.code === '23505') {
-      errorMessage = 'You have already voted for this song. Please refresh the page.';
-    } else if (error.code === '23503') {
-      errorMessage = 'Invalid song selection. Please refresh and try again.';
-    } else if (error.code === '42501') {
-      errorMessage = 'Permission denied. Please sign in again.';
-    } else if (error.message?.includes('JWT')) {
-      errorMessage = 'Your session has expired. Please sign in again.';
-    } else if (error.message?.includes('network')) {
-      errorMessage = 'Network error. Please check your connection.';
-    }
-    
-    toast.error(errorMessage);
-    
-    // Restore button
-    elements.modalConfirm.innerHTML = '<span class="button-text">Confirm Vote</span>';
-    elements.modalConfirm.disabled = false;
-  } finally {
-    appState.isLoading = false;
-  }
-}
-
 // Update a specific artist card without reloading all
 function updateArtistCard(artistId) {
   const card = document.querySelector(`[data-artist-id="${artistId}"]`);
@@ -910,7 +721,6 @@ function closeThankYouModal() {
 }
 
 // Make functions globally accessible
-window.closeVoteModal = closeVoteModal;
 window.handlers = handlers;
 
 // Auth state listener
@@ -921,6 +731,8 @@ supabase.auth.onAuthStateChange((event, session) => {
 
 // Initialize application
 async function init() {
+  console.log('=== Initializing Application ===');
+  
   try {
     initializeElements();
     setupEventListeners();
@@ -929,6 +741,7 @@ async function init() {
     const { data: { session }, error } = await supabase.auth.getSession();
     if (error) throw error;
     
+    console.log('Initial session:', !!session);
     updateAuthUI(session);
   } catch (error) {
     console.error('Initialization error:', error);
