@@ -1,9 +1,3 @@
-window.onerror = function(msg, url, line, col, error) {
-  console.error('ERROR:', msg, 'at line', line);
-  alert('JavaScript Error: ' + msg);
-  return false;
-};
-
 // Initialize Supabase client
 const supabase = window.supabase.createClient(SUPABASE_CONFIG.url, SUPABASE_CONFIG.anonKey);
 
