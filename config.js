@@ -8,9 +8,9 @@ const SUPABASE_CONFIG = {
 // Application Configuration
 const APP_CONFIG = {
   maxVotesPerUser: 10,
-  maxVotesPerSong: 3,
+  maxVotesPerSong: 4,
   debounceDelay: 300,
   toastDuration: 3000,
-  retryAttempts: 3,
+  retryAttempts: 4,
   retryDelay: 1000
 };
