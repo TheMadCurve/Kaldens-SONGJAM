@@ -479,6 +479,7 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 0.75rem;
+  border: 1px solid var(--border-color);
 }
 
 .login-prompt-btn:hover {
@@ -1021,7 +1022,7 @@ body {
   font-size: 0.75rem;
   border-top: 1px solid var(--border-color);
   background-color: var(--bg-primary);
-  background-image: linear-gradient(to bottom, #897063, #29221E);
+  background-image: linear-gradient(to bottom, #5F4E45, #0F0C0B);
 }
 
 .tmc-signature {
