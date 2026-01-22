@@ -988,7 +988,7 @@ body {
 }
 
 .participating-artist:hover .artist-avatar {
-  transform: scale(0.8);
+  transform: scale(1.05);
   box-shadow: 0 0 8px currentColor;
   transition: scale 800ms ease;
 }
