@@ -974,7 +974,7 @@ body {
 }
 
 .participating-artist:hover {
-  transform: translateY(-4px);
+  transform: translateY(-2px);
 }
 
 .artist-avatar {
@@ -988,19 +988,21 @@ body {
 }
 
 .participating-artist:hover .artist-avatar {
-  transform: scale(1.1);
-  box-shadow: 0 0 20px currentColor;
+  transform: scale(0.8);
+  box-shadow: 0 0 8px currentColor;
+  transition: scale 800ms ease;
 }
 
 .artist-name {
   font-size: 0.875rem;
   font-weight: 600;
-  opacity: 0.8;
+  opacity: 0.4;
   transition: opacity var(--transition-base);
 }
 
 .participating-artist:hover .artist-name {
   opacity: 1;
+  transition: opacity 800ms ease;
 }
 
 /* Artist border colors */
