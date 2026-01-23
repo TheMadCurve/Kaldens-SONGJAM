@@ -474,7 +474,7 @@ function updateVotesDisplay() {
   });
   
   elements.votesCount.textContent = remaining;
-  elements.votesRemaining.classList.toggle('low-votes', remaining <= 3);
+  elements.votesRemaining.classList.toggle('low-votes', remaining <= 4);
   
   // Add class to main content when submit section is visible
   if (appState.hasPendingVotes()) {
