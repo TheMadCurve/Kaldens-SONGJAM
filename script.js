@@ -550,7 +550,7 @@ function showLoginPrompt() {
         <h3>How Voting Works:</h3>
         <ul>
           <li>🗳️ You get <strong>10 total votes</strong> to distribute</li>
-          <li>🎯 Give up to <strong>3 votes per song</strong></li>
+          <li>🎯 Give up to <strong>4 votes per song</strong></li>
           <li>🎧 Listen to each song before voting</li>
           <li>🏆 Help your favorite artists win!</li>
         </ul>
