@@ -77,7 +77,7 @@
 .max-votes-message {
   text-align: center;
   font-size: 0.75rem;
-  color: var(--text-muted);
+  color: var(--text-secondary);
   margin-top: 0.5rem;
   font-style: italic;
 }
