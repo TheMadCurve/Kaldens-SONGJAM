@@ -331,15 +331,14 @@ body {
 }
 
 .logout-btn {
-  background-color: transparent;
-  color: var(--text-secondary);
+  background-color: var(--primary-color);
+  color: white;
   border: 1px solid var(--border-color);
 }
 
 .logout-btn:hover {
-  background-color: rgba(239, 68, 68, 0.1);
-  color: #ef4444;
-  border-color: #ef4444;
+  background-color: var(--primary-hover);
+  box-shadow: var(--shadow-md);
 }
 
 .twitch-icon {
