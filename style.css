@@ -991,7 +991,7 @@ body {
   box-shadow: 0 0 8px currentColor;
   transition: scale 800ms ease;
 }
-
+/*
 .artist-name {
   font-size: 0.875rem;
   font-weight: 600;
@@ -1003,7 +1003,7 @@ body {
   opacity: 1;
   transition: opacity 800ms ease;
 }
-
+*/
 /* Artist border colors */
 .artist-border-1 { border-color: #e9d5ff; }
 .artist-border-2 { border-color: #86efac; }
