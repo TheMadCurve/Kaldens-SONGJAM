@@ -510,15 +510,18 @@ async function loadArtists() {
       console.log('Fetching artists from database...');
       return await db
         .from('artists')
-        .select('*')
-        .order('display_name');
+        .select('*');
+        // Removed .order('display_name') to shuffle randomly instead
     });
 
     console.log('Fetch result:', { artistsCount: artists?.length, error });
 
     if (error) throw error;
 
-    appState.artists = artists || [];
+    // Shuffle artists randomly for fair visibility
+    appState.artists = (artists || []).sort(() => Math.random() - 0.5);
+    
+    console.log('Artists shuffled randomly');
 
     if (!appState.user) {
       console.log('No user, showing login prompt');
