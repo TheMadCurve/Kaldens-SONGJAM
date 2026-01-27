@@ -269,31 +269,28 @@ body {
 }
 
 .logo-img {
-  height: 90px;
+  height: 95px;
   width: auto;
   object-fit: contain;
-  filter: drop-shadow(2px 1px 0px black);
 }
 
 /* Easter Egg Emote */
 .logo-easter-egg {
   position: absolute;
-  bottom: -3rem; /* Position below the logo */
-  left: 50%;
+  left: 20%;
   transform: translateX(-50%);
-  width: 60px; /* Adjust size as needed */
-  height: 60px;
+  width: 30px;
+  height: 30px;
   object-fit: contain;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition: opacity 0.6s ease, transform 0.6s ease;
   z-index: 1000;
   filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.4));
 }
 
 .header-logo:hover .logo-easter-egg {
   opacity: 1;
-  transform: translateX(-50%) translateY(-5px); /* Slight pop-up effect */
 }
 
 @media (max-width: 768px) {
