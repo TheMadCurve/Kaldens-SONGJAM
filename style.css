@@ -265,18 +265,31 @@ body {
   position: relative;
   display: flex;
   align-items: center;
+  gap: 1rem;
+  justify-self: start;
 }
 
 .logo-img {
   height: 95px;
   width: auto;
   object-fit: contain;
+  flex-shrink: 0;
+}
+
+.header-title {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  text-shadow: 2px 1.5px 0px black;
+  margin: 0;
+  white-space: nowrap;
 }
 
 /* Easter Egg Emote */
 .logo-easter-egg {
   position: absolute;
-  left: 35%;
+  bottom: -1.5rem;
+  left: 25px;
   transform: translateX(-50%);
   width: 30px;
   height: 30px;
@@ -290,12 +303,16 @@ body {
 
 .header-logo:hover .logo-easter-egg {
   opacity: 1;
-  transform: translateX(-50%) translateY(-5px);
+  transform: translateY(-5px);
 }
 
 @media (max-width: 768px) {
   .logo-img {
     height: 40px;
+  }
+
+  .header-title {
+    font-size: 1rem;
   }
   
   .logo-easter-egg {
