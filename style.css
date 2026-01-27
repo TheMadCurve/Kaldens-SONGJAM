@@ -259,11 +259,6 @@ body {
   min-height: 60px;
 }
 
-.header-title {
-  height: 50px;
-  justify-self: start;
-}
-
 .header-logo {
   display: flex;
   align-items: center;
