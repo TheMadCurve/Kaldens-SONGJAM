@@ -276,7 +276,7 @@ body {
 /* Easter Egg Emote */
 .logo-easter-egg {
   position: absolute;
-  left: 20%;
+  left: 35%;
   transform: translateX(-50%);
   width: 30px;
   height: 30px;
@@ -290,6 +290,7 @@ body {
 
 .header-logo:hover .logo-easter-egg {
   opacity: 1;
+  transform: translateX(-50%) translateY(-5px);
 }
 
 @media (max-width: 768px) {
