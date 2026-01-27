@@ -458,8 +458,8 @@ body {
 }
 
 .how-it-works {
-  background-color: var(--bg-card);
-  border: 1.5px solid var(--border-color);
+  background-color: var(--primary-hover);
+  border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
   padding: 1.5rem;
   margin: 2rem 0;
