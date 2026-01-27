@@ -545,7 +545,9 @@ async function loadArtists() {
 function showLoginPrompt() {
   elements.mainContent.innerHTML = `
     <div class="login-prompt">
-      <div class="login-prompt-icon">🎵</div>
+      <div class="login-prompt-icon">
+        <img src="logo-transparent.png">
+      </div>
       <h2>Welcome to Kalden's SONGJAM!</h2>
       <p>Sign in with your Twitch account to vote for your favorites</p>
       
