@@ -249,7 +249,6 @@ body {
   top: 0;
   z-index: 100;
   background-color: var(--bg-secondary);
-  backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--border-color);
   padding: 1rem 1.5rem;
   display: grid;
@@ -260,9 +259,9 @@ body {
 }
 
 .header-title {
-  font-size: 1.25rem;
-  font-weight: 700;
-  letter-spacing: -0.025em;
+  min-height: 50px;
+  padding: 5px;
+  max-height: 60px;
   justify-self: start;
 }
 
