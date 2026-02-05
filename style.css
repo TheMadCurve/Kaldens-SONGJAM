@@ -1062,12 +1062,12 @@ body {
 }
 */
 /* Artist border colors */
-.artist-border-1 { border-color: #e9d5ff; }
-.artist-border-2 { border-color: #86efac; }
-.artist-border-3 { border-color: #fed7aa; }
-.artist-border-4 { border-color: #fce7f3; }
-.artist-border-5 { border-color: #bfdbfe; }
-.artist-border-6 { border-color: #81a2e6;}
+.artist-border-1 { border-color: #ff8280; }
+.artist-border-2 { border-color: #5c16c5; }
+.artist-border-3 { border-color: #fdfb8a; }
+.artist-border-4 { border-color: #1c8516; }
+.artist-border-5 { border-color: #0b9b39; }
+.artist-border-6 { border-color: #434343;}
 
 #footer {
   text-align: center;
