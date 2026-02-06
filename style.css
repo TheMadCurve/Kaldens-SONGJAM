@@ -994,8 +994,8 @@ body {
   max-width: 800px;
   margin: 0 auto;
   overflow-x: auto;
-  scrollbar-width: thin;
-  scrollbar-color: #da9e9e #86926c;
+  scrollbar-width: default;
+  scrollbar-color: white transparent;
 }
 
 .artists-carousel::-webkit-scrollbar {
@@ -1010,12 +1010,17 @@ body {
 }
 
 .artists-carousel::-webkit-scrollbar-thumb {
-  background: #da9e9e;
+  background: white;
   border-radius: 10px;
 }
 
 .artists-carousel::-webkit-scrollbar-thumb:active {
-  background: #c87776;
+  background: white;
+}
+
+.artists-carousel::-webkit-scrollbar-thumb:hover {
+  background: white;
+  border: solid 1.5px black;
 }
 
 .artists-track {
