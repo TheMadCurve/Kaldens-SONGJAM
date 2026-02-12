@@ -1129,11 +1129,19 @@ body {
   height: auto;
   opacity: 0.5;
   transition: all var(--transition-base);
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .tmc-callout a:hover img {
   opacity: 1;
 }
+
+.tmc-callout td {
+  padding: 0px 6px;
+}
+
 
 /* Responsive Design */
 @media (max-width: 768px) {
