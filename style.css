@@ -515,15 +515,23 @@ body {
   margin-bottom: 1rem;
 }
 
-.how-it-works ul {
-  list-style: none;
-  padding-bottom: 0.75rem;
+.how-it-works table {
+  padding-left: 1.3rem;
 }
 
-.how-it-works li {
-  padding-left: 1.5rem;
+.how-it-works tr {
   color: white;
 }
+
+.how-it-works td.darules {
+  vertical-align: middle;
+}
+
+
+.how-it-works img{
+  float: right;
+  filter: drop-shadow(1.5px 1px 0px #da9e9e);
+} 
 
 .login-prompt-btn {
   background-color: var(--primary-color);
