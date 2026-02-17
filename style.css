@@ -886,7 +886,7 @@ body {
   border-radius: var(--radius-md);
   font-weight: 600;
   font-size: 0.875rem;
-  border: none;
+  border: 1px solid var(--border-color);
   cursor: pointer;
   transition: all var(--transition-base);
   display: inline-flex;
@@ -895,7 +895,7 @@ body {
 }
 
 .modal-btn-primary {
-  background-color: var(--primary-color);
+  background-color: var(--primary-hover;
   color: white;
 }
 
@@ -938,6 +938,10 @@ body {
 .thank-you-subtitle {
   font-weight: 600;
   color: var(--primary-color);
+}
+
+.thank-you-content a {
+  color: #9b4342
 }
 
 /* Toast Notifications */
