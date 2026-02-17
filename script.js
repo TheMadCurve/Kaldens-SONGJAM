@@ -557,7 +557,7 @@ function showLoginPrompt() {
           <tr><td><img class="number-img" src="images/numba-1.webp" width="30px" height="30px"></td><td class="darules">You get <strong>10 total votes</strong> to distribute</td></tr>
           <tr><td><img class="number-img" src="images/numba-2.webp" width="30px" height="30px"></td><td class="darules">Give up to <strong>4 votes per song</strong></td></tr>
           <tr><td><img class="number-img" src="images/numba-3.webp" width="30px" height="30px"></td><td class="darules">Listen to each song before voting</td></tr>
-          <tr><td><img class="crown-img" src="images/crown.webp" width="30px" height="30px"></td><td class="darules">Help your favorite artists win!</td></tr>
+          <tr><td><img class="crown-img" src="images/crown.webp" width="33px" height="33px"></td><td class="darules"><span style="font-weight:bolder">Help your favorite artists win!</span></td></tr>
         </table>
       </div>
       
