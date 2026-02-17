@@ -438,31 +438,35 @@ body {
 
 /* Loading Overlay - covers entire viewport */
 .loading-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(137, 112, 99, 0.8);
+  background-color: var(--primary-hover);
+  border: 1px solid var(--border-color);
+  padding: 1.5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 1rem;
   z-index: 999;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  opacity: .95;
 }
 
 .loading-overlay p {
-  color: #a0a0a0;
-  font-size: 1.1rem;
+  color: #ffffff;
+  text-shadow: 2px 1.5px 0px black;
+  font-size: 1.8rem;
   margin: 0;
 }
 
 .loading-spinner.large {
   width: 48px;
   height: 48px;
-  border: 2px solid rgba(134, 146, 108, 0.2);
-  border-top-color: #86926c;
+  border: 4.5px solid #9b4342;
+  border-top-color: #da9e9e;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
