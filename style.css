@@ -926,8 +926,10 @@ body {
 }
 
 .thank-you-content h2 {
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   margin-bottom: 1rem;
+  font-weight: 700;
+  text-shadow: 1px 1px 0px black;
 }
 
 .thank-you-content p {
