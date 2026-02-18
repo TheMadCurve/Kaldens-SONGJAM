@@ -727,7 +727,7 @@ body {
 .vote-btn {
   width: 100%;
   padding: 0.625rem 1rem;
-  background-color: #da9e9e;
+  background-color: #d99b9b;
   color: white;
   border: none;
   border-radius: var(--radius-md);
@@ -941,7 +941,12 @@ body {
 }
 
 .thank-you-content a {
-  color: #9b4342
+  color: #e88c8c;
+}
+
+.thank-you-content a:hover {
+  color: #e57b7b;
+  text-shadow: 2px 2px 0px var(--primary-color);
 }
 
 /* Toast Notifications */
