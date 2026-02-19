@@ -330,12 +330,18 @@ function setupEventListeners() {
     }
   });
 
-  // Prevent audio from playing simultaneously
+  // Prevent audio from playing simultaneously - only pause other audio when a NEW audio starts
   document.addEventListener('play', (e) => {
-    const audios = document.querySelectorAll('audio');
-    audios.forEach(audio => {
-      if (audio !== e.target) audio.pause();
-    });
+    // Only handle audio elements
+    if (e.target.tagName === 'AUDIO') {
+      const audios = document.querySelectorAll('audio');
+      audios.forEach(audio => {
+        // Pause other audio players, but not the one that just started
+        if (audio !== e.target) {
+          audio.pause();
+        }
+      });
+    }
   }, true);
 
   // Event delegation for vote buttons
@@ -811,9 +817,11 @@ if (document.readyState === 'loading') {
   init();
 }
 
-// Handle page visibility for auto-refresh
+// Handle page visibility for auto-refresh - UPDATE to not pause audio
 document.addEventListener('visibilitychange', () => {
   if (!document.hidden && appState.user) {
     loadUserVotes(); // Refresh votes when page becomes visible
+    // Note: We intentionally don't pause audio here
   }
+  // When tab becomes hidden, audio continues playing
 });
