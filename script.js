@@ -344,6 +344,21 @@ function setupEventListeners() {
     }
   }, true);
 
+  // Event delegation for vote buttons
+  elements.mainContent?.addEventListener('click', (e) => {
+    const plusBtn = e.target.closest('.vote-btn-plus');
+    const minusBtn = e.target.closest('.vote-btn-minus');
+    
+    if (plusBtn && !plusBtn.disabled) {
+      const artistId = plusBtn.dataset.artistId;
+      handleAddVote(artistId);
+    } else if (minusBtn && !minusBtn.disabled) {
+      const artistId = minusBtn.dataset.artistId;
+      handleRemoveVote(artistId);
+    }
+  });
+} // <-- Close setupEventListeners() here
+
 // Preserve audio playback state during re-renders
 function preserveAudioState() {
   const playingAudio = document.querySelector('audio:not([paused])');
@@ -371,20 +386,6 @@ function restoreAudioState(state) {
       break;
     }
   }
-}
-  // Event delegation for vote buttons
-  elements.mainContent?.addEventListener('click', (e) => {
-    const plusBtn = e.target.closest('.vote-btn-plus');
-    const minusBtn = e.target.closest('.vote-btn-minus');
-    
-    if (plusBtn && !plusBtn.disabled) {
-      const artistId = plusBtn.dataset.artistId;
-      handleAddVote(artistId);
-    } else if (minusBtn && !minusBtn.disabled) {
-      const artistId = minusBtn.dataset.artistId;
-      handleRemoveVote(artistId);
-    }
-  });
 }
 
 // Authentication handlers
