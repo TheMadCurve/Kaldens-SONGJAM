@@ -764,7 +764,7 @@ function createArtistCard(artist) {
   return card;
 }
 
-// Update a specific artist card without reloading all
+// Update a specific artist card's vote controls without reloading the whole card
 function updateArtistCard(artistId) {
   const card = document.querySelector(`[data-artist-id="${artistId}"]`);
   if (!card) return;
@@ -772,8 +772,55 @@ function updateArtistCard(artistId) {
   const artist = appState.artists.find(a => a.song_id === artistId);
   if (!artist) return;
   
-  const newCard = createArtistCard(artist);
-  card.replaceWith(newCard);
+  // Get current vote state
+  const existingVotes = appState.getVotesForSong(artist.song_id);
+  const pendingVotes = appState.getPendingVotesForSong(artist.song_id);
+  const totalVotes = existingVotes + pendingVotes;
+  const canAdd = appState.canAddVoteForSong(artist.song_id);
+  const canRemove = appState.canRemoveVoteForSong(artist.song_id);
+  
+  // Find and update only the vote section
+  const voteSection = card.querySelector('.vote-section');
+  if (!voteSection) return;
+  
+  // Update the vote section HTML
+  voteSection.innerHTML = `
+    ${existingVotes > 0 ? `
+      <div class="existing-votes">
+        Previously gave ${existingVotes} ${utils.pluralize(existingVotes, 'vote')}
+      </div>
+    ` : ''}
+    
+    <div class="vote-controls">
+      <button 
+        class="vote-btn vote-btn-minus" 
+        data-artist-id="${artist.song_id}"
+        ${!canRemove ? 'disabled' : ''}
+        aria-label="Remove vote from ${utils.sanitizeHTML(artist.display_name)}"
+      >
+        −
+      </button>
+      
+      <div class="vote-display">
+        <span class="vote-count ${pendingVotes > 0 ? 'has-pending' : ''}">${totalVotes}</span>
+        ${pendingVotes > 0 ? `<span class="pending-indicator">+${pendingVotes}</span>` : ''}
+      </div>
+      
+      <button 
+        class="vote-btn vote-btn-plus" 
+        data-artist-id="${artist.song_id}"
+        ${!canAdd ? 'disabled' : ''}
+        aria-label="Add vote to ${utils.sanitizeHTML(artist.display_name)}"
+      >
+        +
+      </button>
+    </div>
+    
+    ${totalVotes >= APP_CONFIG.maxVotesPerSong ? 
+      '<div class="max-votes-message">Max votes reached</div>' : 
+      ''
+    }
+  `;
 }
 
 // Modal functions
