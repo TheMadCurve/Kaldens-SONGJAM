@@ -430,7 +430,8 @@ function updateAuthUI(session) {
     elements.votesRemaining.style.display = 'none';
   }
   
-  loadArtists();
+  // Don't randomize when auth state changes (tab focus)
+  loadArtists(false);
 }
 
 // Load user's votes
@@ -499,9 +500,9 @@ function showLoadingState(show) {
   }
 }
 
-// Load and display artists - UPDATED with better flow
-async function loadArtists() {
-  console.log('loadArtists called');
+// Load and display artists - UPDATED to preserve order
+async function loadArtists(shouldRandomize = false) {
+  console.log('loadArtists called, shouldRandomize:', shouldRandomize);
   
   try {
     showLoadingState(true);
@@ -511,17 +512,28 @@ async function loadArtists() {
       return await db
         .from('artists')
         .select('*');
-        // Removed .order('display_name') to shuffle randomly instead
+        // No .order() - we'll handle ordering ourselves
     });
 
     console.log('Fetch result:', { artistsCount: artists?.length, error });
 
     if (error) throw error;
 
-    // Shuffle artists randomly for fair visibility
-    appState.artists = (artists || []).sort(() => Math.random() - 0.5);
-    
-    console.log('Artists shuffled randomly');
+    // Only shuffle if we should randomize (on initial load or refresh)
+    if (shouldRandomize) {
+      appState.artists = (artists || []).sort(() => Math.random() - 0.5);
+      console.log('Artists shuffled randomly');
+    } else {
+      // Keep existing order if we already have artists
+      if (appState.artists.length > 0) {
+        console.log('Keeping existing artist order');
+        // Don't update appState.artists to preserve order
+      } else {
+        // First time loading, shuffle
+        appState.artists = (artists || []).sort(() => Math.random() - 0.5);
+        console.log('First load - artists shuffled');
+      }
+    }
 
     if (!appState.user) {
       console.log('No user, showing login prompt');
@@ -747,7 +759,24 @@ async function init() {
     if (error) throw error;
     
     console.log('Initial session:', !!session);
-    updateAuthUI(session);
+    
+    // Set initial auth UI
+    if (session?.user) {
+      appState.user = session.user;
+      elements.loginBtn.style.display = 'none';
+      elements.logoutBtn.style.display = 'block';
+      elements.votesRemaining.style.display = 'block';
+      loadUserVotes();
+    } else {
+      appState.reset();
+      elements.loginBtn.style.display = 'block';
+      elements.logoutBtn.style.display = 'none';
+      elements.votesRemaining.style.display = 'none';
+    }
+    
+    // Randomize on initial page load
+    loadArtists(true);
+    
   } catch (error) {
     console.error('Initialization error:', error);
     toast.error('Failed to initialize. Please refresh the page.');
