@@ -413,6 +413,8 @@ async function handleLogout() {
 function updateAuthUI(session) {
   console.log('updateAuthUI called, session:', !!session);
   
+  const wasLoggedIn = !!appState.user;
+  
   if (session?.user) {
     appState.user = session.user;
     
@@ -421,7 +423,10 @@ function updateAuthUI(session) {
     elements.logoutBtn.style.display = 'block';
     elements.votesRemaining.style.display = 'block';
     
-    loadUserVotes();
+    // Only load votes if we weren't already logged in
+    if (!wasLoggedIn) {
+      loadUserVotes();
+    }
   } else {
     appState.reset();
     
@@ -430,8 +435,11 @@ function updateAuthUI(session) {
     elements.votesRemaining.style.display = 'none';
   }
   
-  // Don't randomize when auth state changes (tab focus)
-  loadArtists(false);
+  // Only load artists if this is a new login/logout, not just a tab focus
+  const shouldLoadArtists = wasLoggedIn !== !!session?.user;
+  if (shouldLoadArtists) {
+    loadArtists(false);
+  }
 }
 
 // Load user's votes
@@ -741,9 +749,22 @@ function closeThankYouModal() {
 window.handlers = handlers;
 
 // Auth state listener
+let hasInitialized = false;
+
 db.auth.onAuthStateChange((event, session) => {
-  console.log('Auth state changed:', event);
-  updateAuthUI(session);
+  console.log('Auth state changed:', event, session?.user?.id);
+  
+  // Only handle actual auth events, not background session checks
+  if (event === 'SIGNED_IN' || event === 'SIGNED_OUT' || event === 'INITIAL_SESSION' || !hasInitialized) {
+    hasInitialized = true;
+    updateAuthUI(session);
+  } else if (event === 'TOKEN_REFRESHED' && session?.user) {
+    // On token refresh, just update the user object, don't reload everything
+    appState.user = session.user;
+    console.log('Token refreshed, user updated');
+  } else {
+    console.log('Ignoring auth event:', event);
+  }
 });
 
 // Initialize application
