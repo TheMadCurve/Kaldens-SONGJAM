@@ -344,6 +344,34 @@ function setupEventListeners() {
     }
   }, true);
 
+// Preserve audio playback state during re-renders
+function preserveAudioState() {
+  const playingAudio = document.querySelector('audio:not([paused])');
+  if (playingAudio) {
+    return {
+      src: playingAudio.querySelector('source')?.src,
+      currentTime: playingAudio.currentTime,
+      playing: !playingAudio.paused
+    };
+  }
+  return null;
+}
+
+// Restore audio playback state after re-render
+function restoreAudioState(state) {
+  if (!state || !state.playing) return;
+  
+  // Find the audio element with matching src
+  const audios = document.querySelectorAll('audio');
+  for (const audio of audios) {
+    const source = audio.querySelector('source');
+    if (source?.src === state.src) {
+      audio.currentTime = state.currentTime;
+      audio.play().catch(err => console.log('Could not resume audio:', err));
+      break;
+    }
+  }
+}
   // Event delegation for vote buttons
   elements.mainContent?.addEventListener('click', (e) => {
     const plusBtn = e.target.closest('.vote-btn-plus');
@@ -622,6 +650,9 @@ function showErrorState() {
 
 // Render artist cards
 function renderArtists(artists) {
+  // Preserve currently playing audio
+  const audioState = preserveAudioState();
+  
   const grid = document.createElement('div');
   grid.className = 'artist-grid';
 
@@ -632,6 +663,12 @@ function renderArtists(artists) {
 
   elements.mainContent.innerHTML = '';
   elements.mainContent.appendChild(grid);
+  
+  // Restore audio playback after render
+  if (audioState) {
+    // Use setTimeout to ensure DOM is ready
+    setTimeout(() => restoreAudioState(audioState), 100);
+  }
 }
 
 // Create individual artist card
