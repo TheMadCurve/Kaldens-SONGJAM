@@ -717,7 +717,7 @@ function createArtistCard(artist) {
     </div>
     
     <div class="audio-container">
-      <audio controls controlsList="nodownload" oncontextmenu="returnfalse" class="artist-audio" preload="none">
+      <audio controls controlsList="nodownload" oncontextmenu="return false" class="artist-audio" preload="none">
         <source src="${songURL}" type="audio/mpeg">
         Your browser does not support the audio element.
       </audio>
