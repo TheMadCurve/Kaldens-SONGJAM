@@ -572,7 +572,7 @@ body {
 }
 
 .privacy-details {
-  margin-top: 0.5rem;
+  margin-top: 0.125rem;
   cursor: pointer;
 }
 
@@ -589,7 +589,7 @@ body {
 }
 
 .privacy-details[open] summary {
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.125rem;
 }
 
 /* Empty State */
