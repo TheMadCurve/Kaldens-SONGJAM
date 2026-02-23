@@ -564,6 +564,35 @@ body {
   color: var(--text-muted);
 }
 
+.privacy-note {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background-color: rgba(134, 146, 108, 0.1);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+}
+
+.privacy-details {
+  margin-top: 0.5rem;
+  cursor: pointer;
+}
+
+.privacy-details summary {
+  font-size: 0.875rem;
+  color: var(--primary-color);
+  font-weight: 600;
+  cursor: pointer;
+  user-select: none;
+}
+
+.privacy-details summary:hover {
+  text-decoration: underline;
+}
+
+.privacy-details[open] summary {
+  margin-bottom: 0.5rem;
+}
+
 /* Empty State */
 .empty-state, .error-state {
   text-align: center;
