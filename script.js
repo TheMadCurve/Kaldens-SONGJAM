@@ -622,8 +622,18 @@ function showLoginPrompt() {
         </svg>
         Sign in with Twitch to Vote
       </button>
-      
-      <p class="login-note">Safe & secure - we only access your public Twitch profile</p>
+
+      <div class="privacy-note">
+        <p class="login-note"><strong>Privacy:</strong> We only use your Twitch info to prevent duplicate voting.</p>
+        <details class="privacy-details">
+          <summary>Learn more about your privacy</summary>
+          <p style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.5rem; text-align: left;">
+            When you sign in, we collect your Twitch username and email solely to identify your votes.
+            Only Kalden and the developer, TheMadCurve aka MadC134, have database access.
+            We will be deleting information permanently when the SONGJAM event has concluded.
+          </p>
+        </details>
+      </div>
     </div>
   `;
 }
