@@ -624,7 +624,6 @@ function showLoginPrompt() {
       </button>
 
       <div class="privacy-note">
-        <p class="login-note"><strong>Privacy:</strong> We only use your Twitch info to prevent duplicate voting.</p>
         <details class="privacy-details">
           <summary>Learn more about your privacy</summary>
           <p style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.5rem; text-align: left;">
