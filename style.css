@@ -559,14 +559,14 @@ body {
 }
 
 .login-note {
-  margin-top: 1rem;
+  margin-top: 0.5rem;
   font-size: 0.875rem;
   color: var(--text-muted);
 }
 
 .privacy-note {
-  margin-top: 0.45rem;
-  padding: 0.75rem 2rem;
+  margin-top: 2rem;
+  padding: 1.15rem 2rem;
   background-color: #667153;
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
@@ -574,6 +574,7 @@ body {
 
 .privacy-details {
   margin-top: 0.125rem;
+  margin-bottom: 0.125rem;
   cursor: pointer;
 }
 
