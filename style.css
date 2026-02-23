@@ -565,9 +565,8 @@ body {
 }
 
 .privacy-note {
-  margin-top: 1.5rem;
-  padding: 1rem;
-  background-color: rgba(134, 146, 108, 0.1);
+  padding: 0.75rem 2rem;
+  background-color: #86926c;
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
 }
@@ -579,7 +578,7 @@ body {
 
 .privacy-details summary {
   font-size: 0.875rem;
-  color: var(--primary-color);
+  color: white;
   font-weight: 600;
   cursor: pointer;
   user-select: none;
