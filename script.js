@@ -1,8 +1,6 @@
 // Award Show Configuration
 const AWARD_SHOW_CONFIG = {
   dateTime: '2026-03-07T11:00:00Z', // ISO format in UTC
-  
-  // Set the Twitch channel where the award show will stream
   twitchChannel: 'kalden_berg'
 };
 
